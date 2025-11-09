@@ -1,0 +1,76 @@
+class GraphMatrix:
+    def __init__(self, vertices):
+        self.vertices = vertices
+        self.size = len(vertices)
+        self.adj_matrix = [[0] * self.size for _ in range(self.size)]
+
+    def add_edge(self, u, v):
+        i, j = self.vertices.index(u), self.vertices.index(v)
+        self.adj_matrix[i][j] = 1
+        self.adj_matrix[j][i] = 1  
+
+    def dfs(self, start, visited=None):
+        if visited is None:
+            visited = set()
+        visited.add(start)
+        print(start, end=" ")
+
+        start_index = self.vertices.index(start)
+        for i in range(self.size):
+            if self.adj_matrix[start_index][i] == 1 and self.vertices[i] not in visited:
+                self.dfs(self.vertices[i], visited)
+
+class GraphList:
+    def __init__(self):
+        self.adj_list = {}
+
+    def add_edge(self, u, v):
+        if u not in self.adj_list:
+            self.adj_list[u] = []
+        if v not in self.adj_list:
+            self.adj_list[v] = []
+        self.adj_list[u].append(v)
+        self.adj_list[v].append(u)  
+
+    def bfs(self, start):
+        visited = set()
+        queue = [start]  
+        visited.add(start)
+
+        while queue:
+            node = queue.pop(0)  
+            print(node, end=" ")
+
+            for neighbor in self.adj_list[node]:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+
+if __name__ == "__main__":
+    print("Graph Traversal - City Area Example")
+    n = int(input("Enter number of locations: "))
+    vertices = []
+    for i in range(n):
+        loc = input(f"Enter location {i+1} name (e.g., A, B, C): ").upper()
+        vertices.append(loc)
+
+    g_matrix = GraphMatrix(vertices)
+    g_list = GraphList()
+
+
+    e = int(input("Enter number of routes (edges): "))
+    print("Enter routes (e.g., A B means there is a route between A and B):")
+    for _ in range(e):
+        u, v = input().split()
+        u, v = u.upper(), v.upper()
+        g_matrix.add_edge(u, v)
+        g_list.add_edge(u, v)
+
+
+    start = input("Enter starting location: ").upper()
+
+    print("\nDFS Traversal using Adjacency Matrix:")
+    g_matrix.dfs(start)
+
+    print("\n\nBFS Traversal using Adjacency List:")
+    g_list.bfs(start)
