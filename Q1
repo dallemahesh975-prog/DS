@@ -1,0 +1,39 @@
+def linear_search(account_list, target):
+    
+    for i in range(len(account_list)):
+        if account_list[i] == target:  
+            return True
+    return False
+
+
+def binary_search(account_list, target):
+    
+    account_list.sort()
+    low = 0
+    high = len(account_list) - 1
+
+    while low <= high:
+        mid = (low + high) // 2  
+        if account_list[mid] == target:
+            return True
+        elif account_list[mid] < target:
+            low = mid + 1  
+        else:
+            high = mid - 1  
+    return False
+
+
+
+customer_ids = [104, 202, 305, 110, 450, 320, 150]
+search_id = int(input("Enter customer account ID to search: "))
+
+if linear_search(customer_ids, search_id):
+    print(f"Linear Search: Customer ID {search_id} found.")
+else:
+    print(f"Linear Search: Customer ID {search_id} not found.")
+
+
+if binary_search(customer_ids, search_id):
+    print(f"Binary Search: Customer ID {search_id} found.")
+else:
+    print(f"Binary Search: Customer ID {search_id} not found.")
