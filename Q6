@@ -1,0 +1,102 @@
+class HashTable:
+    def __init__(self, size):
+        self.size = size
+        self.table = [None] * self.size
+
+    def hash_function(self, key):
+        return key % self.size
+
+    def insert(self, key):
+        index = self.hash_function(key)
+        start_index = index
+
+        while self.table[index] is not None and self.table[index] != "DELETED":
+            if self.table[index] == key:
+                print(f"Key {key} already exists at index {index}")
+                return
+            index = (index + 1) % self.size
+            if index == start_index:
+                print("Hash table is full! Cannot insert more keys.")
+                return
+
+        self.table[index] = key
+        print(f"Inserted key {key} at index {index}")
+
+    def search(self, key):
+        index = self.hash_function(key)
+        start_index = index
+
+        while self.table[index] is not None:
+            if self.table[index] == key:
+                print(f"Key {key} found at index {index}")
+                return
+            index = (index + 1) % self.size
+            if index == start_index:
+                break
+
+        print(f"Key {key} not found in the table.")
+
+    def delete(self, key):
+        index = self.hash_function(key)
+        start_index = index
+
+        while self.table[index] is not None:
+            if self.table[index] == key:
+                self.table[index] = "DELETED"
+                print(f"Key {key} deleted from index {index}")
+                return
+            index = (index + 1) % self.size
+            if index == start_index:
+                break
+
+        print(f"Key {key} not found to delete.")
+
+    def display(self):
+        print("\nHash Table:")
+        for i in range(self.size):
+            print(f"Index {i}: {self.table[i]}")
+        print()
+
+
+# Main menu-driven interface
+hash_table = HashTable(10)
+
+while True:
+    print("---- Hash Table Operations ----")
+    print("1. Insert a key")
+    print("2. Search a key")
+    print("3. Delete a key")
+    print("4. Display table")
+    print("5. Exit")
+
+    try:
+        choice = int(input("Enter your choice: "))
+    except ValueError:
+        print("Invalid input! Please enter a number between 1 and 5.")
+        continue
+
+    if choice == 1:
+        try:
+            key = int(input("Enter key to insert: "))
+            hash_table.insert(key)
+        except ValueError:
+            print("Invalid key! Please enter an integer.")
+    elif choice == 2:
+        try:
+            key = int(input("Enter key to search: "))
+            hash_table.search(key)
+        except ValueError:
+            print("Invalid key! Please enter an integer.")
+    elif choice == 3:
+        try:
+            key = int(input("Enter key to delete: "))
+            hash_table.delete(key)
+        except ValueError:
+            print("Invalid key! Please enter an integer.")
+    elif choice == 4:
+        hash_table.display()
+    elif choice == 5:
+        print("Exiting program...")
+        break
+    else:
+        print("Invalid choice! Please try again.")
