@@ -1,0 +1,31 @@
+def selection_sort(salaries):
+    n = len(salaries)
+    for i in range(n):
+        min_index = i
+        for j in range(i + 1, n):
+            if salaries[j] < salaries[min_index]:
+                min_index = j
+        salaries[i], salaries[min_index] = salaries[min_index], salaries[i]
+    return salaries
+
+
+def bubble_sort(salaries):
+    n = len(salaries)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if salaries[j] > salaries[j + 1]:
+                salaries[j], salaries[j + 1] = salaries[j + 1], salaries[j]
+    return salaries
+
+
+salaries = [45000.50, 30000.75, 55000.25, 25000.00, 48000.90, 60000.00, 75000.80]
+
+print("Original Salaries:", salaries)
+
+sel_sorted = selection_sort(salaries.copy())
+print("\nSalaries after Selection Sort (Ascending):", sel_sorted)
+print("Top 5 Highest Salaries:", sel_sorted[-5:][::-1])
+
+bub_sorted = bubble_sort(salaries.copy())
+print("\nSalaries after Bubble Sort (Ascending):", bub_sorted)
+print("Top 5 Highest Salaries:", bub_sorted[-5:][::-1])
